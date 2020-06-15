@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript Elements</title>
+</head>
+<body>
+<div>
+    <ul id='ul-1'>
+        <li>list1</li>
+        <li>list2</li>
+        <li>list3</li>
+    </ul>
+</div>
+ 
+<script type="text/javascript">
+ 
+    var list4 = document.createElement("li");
+    var node = document.createTextNode("list4");
+    list4.appendChild(node);
+ 
+    var element = document.getElementById("ul-1");
+    element.appendChild(list4);
+ 
+</script>
+ 
+</body>
+</html>

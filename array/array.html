@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Array 💪</title>
+</head>
+<body>
+
+    
+  <p><em> 자바스크립트 콘솔을 확인해보세요 </em> 💁</p>
+  <script>
+      
+    const inventors = [
+      { first: 'Albert', last: 'Einstein', year: 1879, passed: 1955 },
+      { first: 'Isaac', last: 'Newton', year: 1643, passed: 1727 },
+      { first: 'Galileo', last: 'Galilei', year: 1564, passed: 1642 },
+      { first: 'Marie', last: 'Curie', year: 1867, passed: 1934 },
+      { first: 'Johannes', last: 'Kepler', year: 1571, passed: 1630 },
+      { first: 'Nicolaus', last: 'Copernicus', year: 1473, passed: 1543 },
+      { first: 'Max', last: 'Planck', year: 1858, passed: 1947 },
+      { first: 'Katherine', last: 'Blodgett', year: 1898, passed: 1979 },
+      { first: 'Ada', last: 'Lovelace', year: 1815, passed: 1852 },
+      { first: 'Sarah E.', last: 'Goode', year: 1855, passed: 1905 },
+      { first: 'Lise', last: 'Meitner', year: 1878, passed: 1968 },
+      { first: 'Hanna', last: 'Hammarström', year: 1829, passed: 1909 }
+    ];
+
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+
+    const people = [
+      { name: 'Wes', year: 1988 },
+      { name: 'Kait', year: 1986 },
+      { name: 'Irv', year: 1970 },
+      { name: 'Lux', year: 2015 }
+    ];
+
+    const comments = [
+      { text: 'Love this!', id: 523423 },
+      { text: 'Super good', id: 823423 },
+      { text: 'You are the best', id: 2039842 },
+      { text: 'Ramen is my fav food ever', id: 123523 },
+      { text: 'Nice Nice Nice!', id: 542328 }
+    ];
+    /*1. 1500~1600태어난 사람*/
+    const bornYear1500 = inventors.filter( x =>{return x.year>=1500 && x.year<1600});
+    console.log(bornYear1500);
+    /*2. 배열 first,last*/
+    const name = inventors.map(function (obj){
+        var rObj = {};
+        rObj[obj.first] = obj.last;
+        return rObj;
+    })
+    console.log(name);
+
+    /*3. 태어난 연도 기준 정렬*/
+
+    inventors.sort(function(a,b){
+        return a.year<b.year?1:a.year>b.year?-1 :0;
+    });
+
+    console.log(inventors);
+
+    /*4. 총 생존기간*/
+    console.log( inventors.reduce(function(accumulator,currentValue){
+        return accumulator + (currentValue.passed - currentValue.year)
+    },0));
+    /*
+    1. 각 생존한 기간을 추출한다. (passed - year)
+    2. 결과 값을 누적한다.
+    */
+
+
+    /*5. 생존한 기간을 기준으로 나열    inventors에 있는 인물들을 생존한 기간을 기준으로 다시 나열해보자. (가장 오래된 순서로) (Array.prototype.reduce)*/
+
+    //생존한 기간을 추출한다.
+
+    longLife = []
+    for (var i ; i<inventors.length; i++){
+      
+      var passed = inventors[i].passed;
+      var year = inventors[i].year;
+      var life = passed-year;
+      longLife.push(life)
+    }
+
+    console.log(longLife);
+    
+
+    
+    // inventors.reduce()
+    
+    //내림차순으로 정렬한다.
+    // longLife.sort(function(a,b){
+    //     a<b?1:a>b?-1:0;
+    // });
+
+   
+
+    //6. data배열에 있는 각각의 요소가 몇번 반복적으로 나타나는지 구해서, 객체의 형태로 정리해서 반환해보자 (Array.prototype.reduce)
+
+    const reducer = (acc, value) => {
+      if (acc[value]) {
+        acc[value] = acc[value] + 1;
+      } else {
+        acc[value] = 1;
+      }
+      return acc;
+    };
+    const getArray = data.reduce(reducer, {}); 
+
+    console.log(getArray);
+
+
+    /*
+      다음과 같은 형태로 반환되어야한다.
+      { bike: 2, car: 5, pogostick: 1, ….. }
+
+
+    people배열에 있는 사람들 중 19살인 사람이 최소 한 명 이상 있는지 확인해보자. (Array.prototype.some)
+    */
+    console.log(people);
+
+    var today = new Date();
+    var year = today.getFullYear()
+
+    var age = []
+
+    for (var i=0; i<people.length; i++){
+      var yearold = year - people[i].year
+      var peopleAge = people[i].yearold = yearold
+      age.push(peopleAge);
+      if (people[i].yearold === 19){
+        console.log(people[i]) 
+      }
+      else{
+        console.log("19살인 사람은 없습니다.")
+      }  
+    }
+
+    var age = people.some(function(item){
+      return people.year==2000;
+    })
+
+    if (age === false){
+      console.log("19살인 사람은 없습니다.");  
+    }
+
+    //people배열에 있는 사람들이 모두 19살인지 확인해보자. (Array.prototype.every)
+
+    var confirm = people.every(function(item){
+      return people.year==2000
+    })
+
+    if (age === false){
+      console.log("모두 19살이 아닙니다.");  
+    }
+
+    //comments배열에 있는 요소 중 id가 823423인 요소를 꺼내보자. (Array.prototype.find)
+
+    var findId =comments.find(function (item){
+      return item.id === 823423;
+    });
+
+
+    console.log(findId);
+
+    //comments배열에 있는 요소 중 id가 823423인 요소의 인덱스를 꺼내보자. (Array.prototype.findIndex)
+
+    function predicate(key, value) {
+      return function (item) {
+        return item[key] === value;
+      };
+    }
+
+    var findIn = comments.findIndex(predicate('id',823423));
+
+    console.log(findIn);
+  </script>
+</body>
+</html>

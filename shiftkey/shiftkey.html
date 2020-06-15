@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>여러개 한번에 선택하기</title>
+</head>
+<body>
+  <style>
+
+    html {
+      font-family: sans-serif;
+      background: #ffc600;
+    }
+
+    .inbox {
+      max-width: 400px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #F1F1F1;
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+    input:checked + p {
+      background: #F9F9F9;
+      text-decoration: line-through;
+    }
+
+    input[type="checkbox"] {
+      margin: 20px;
+    }
+
+    p {
+      margin: 0;
+      padding: 20px;
+      transition: background 0.2s;
+      flex: 1;
+      font-family:'helvetica neue';
+      font-size: 20px;
+      font-weight: 200;
+      border-left: 1px solid #D1E2FF;
+    }
+  </style>
+   <!--
+   The following is a common layout you would see in an email client.
+   When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes inbetween those two checkboxes should be checked.
+  -->
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox" id="과목0">
+      <p>컴퓨터 프로그램의 구조와 해석</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목1">
+      <p>모두의 데이터 과학</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목2">
+      <p>HTTP 완벽 가이드</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목3">
+      <p>CODE</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목4">
+      <p>인사이드 자바스크립트</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목5">
+      <p>알고리즘 문제해결 전략</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목6">
+      <p>문제로 풀어보는 알고리즘</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목7">
+      <p>인공지능을 위한 수학</p>
+    </div>
+    <div class="item">
+      <input type="checkbox" id="과목8">
+      <p>알고리즘 트레이닝</p>
+    </div>
+  </div>
+
+<script>
+    
+
+
+    var firstCheck;
+    var checkBoxs = document.querySelectorAll("input");
+
+    console.log(checkBoxs)
+
+    getEl = []; 
+    for (var i = 0 ; i< checkBoxs.length;i++){
+        var getClass = document.querySelector("#과목"+`${i}`)
+        getEl.push(getClass);
+    }
+
+    console.log(getEl)
+
+    checkBoxs.forEach(checkBox =>{
+        checkBox.addEventListener("click",function (event){
+            console.log(event.shiftKey)
+            // console.log(firstCheck+"이전변수")
+            // console.log(this.id + "현재변수")
+            if (firstCheck != undefined && event.shiftKey === true){
+                console.log(firstCheck);
+                var firstIndex = getEl.findIndex(obj=>obj.id === firstCheck);
+                console.log(firstIndex + "=1번 인덱스")
+                var thisIndex = getEl.findIndex(obj2=>obj2.id === this.id);
+                console.log(thisIndex +"=2번 인덱스")
+
+
+                if (firstIndex<thisIndex){
+                  console.log("조건 1번 만족")
+                  for (var i = firstIndex; i<thisIndex;i++){
+                    getEl[i].checked = true
+                  }
+
+                  
+                }else{
+                  console.log("조건 2번 만족")
+                  for (var i = thisIndex; i<firstIndex;i++){
+                    getEl[i].checked = true
+                  }
+                }
+            }
+            firstCheck = this.id
+            // console.log(firstCheck+"대입변수")
+        })
+    });
+
+    // 각 체크박스에 class를 줘서 배열에 담고 중복을 제거하여 두번째 받은 값과 사이에 
+    // shift키가 눌렸다면 클래스 값들 사이의checked = true로 변경
+</script>
+</body>
+</html>

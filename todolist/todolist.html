@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LocalStorage</title>
+  <!-- <link rel="stylesheet" href="todolist.css"> -->
+</head>
+<body>
+
+   
+
+  <div class="wrapper">
+    <h2>LOCAL TODOs</h2>
+    <p></p>
+    <ul class="todos">
+      <li>Loading TODOs...</li>
+    </ul>
+    <form class="add-items">
+      <input type="text" name="item" placeholder="Item Name" required>
+      <input type="submit" value="+ Add Item">
+    </form>
+  </div>
+
+<script>
+  const addItems = document.querySelector('.add-items');
+  const itemsList = document.querySelector('.todos');
+  
+  // const items = JSON.parse(localStorage.getItem('items')) || [];
+  var itemsArray = [];
+
+  document.addEventListener("submit",additem)
+
+  function additem(){
+    event.preventDefault()
+    
+    var getItem = document.querySelector('[name="item"]').value
+    
+    var todo = {
+        getItem,
+        done: false
+    }
+    itemsArray.push(todo)
+    var todoData = JSON.stringify(itemsArray)
+      
+    localStorage.setItem("items",todoData)
+    //text 내용 초기화 input reset()
+    addItems.reset()
+    populateList()
+    
+    
+  }
+  //ul 테그요소 itemList에 click이벤트로 바인딩
+  itemsList.addEventListener("click",toggleDone)
+
+  function toggleDone(event){
+    //localStrage에 있는 item을 추출
+    var saveItem = localStorage.getItem("items")
+    //배열로 변환
+    var dataItem = JSON.parse(saveItem)
+
+    var select = event.target.dataset.index;
+    
+    if(dataItem[select].done===false){
+      dataItem[select].done = true;
+    }else{
+      dataItem[select].done = false;
+    }
+
+    //done = false라면 true, true라면 false로 변경
+    
+    //체크 했을때 완료 표시가 되도록 동작
+    var todo = event.target
+    
+    //localStorage에 저장
+    var todoData = JSON.stringify(dataItem);
+    
+    localStorage.setItem("items",todoData);
+    populateList();
+  }
+
+  function populateList(){
+    //localStrage에 있는 item을 추출
+    var saveItem = localStorage.getItem("items");
+    //배열로 변환
+    var dataItem = JSON.parse(saveItem);
+    
+    
+    var output = dataItem.map(function(item,i){
+      if(item.done === true){
+        return `<li style="color: red"><input type="checkbox" data-index = ${i} id="item${i}" 'checked'/><label for="item${i}">${item.getItem}</label></li>`;
+ 
+      }else{
+        return `<li><input type="checkbox" data-index = ${i} id="item${i}" 'checked'/><label for="item${i}">${item.getItem}</label></li>`;
+
+      }
+    })
+    itemsList.innerHTML = output.join('');
+  }
+
+
+</script>
+
+
+</body>
+</html>
